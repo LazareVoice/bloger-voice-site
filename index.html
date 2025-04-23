@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Блогер з голосом – Оплата</title>
+  <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+</head>
+<body style="text-align: center; font-family: sans-serif; padding: 40px;">
+  <h1>Курс «Блогер з голосом»</h1>
+  <h2 style="color: red;">389 грн <del style="color: gray;">4600 грн</del></h2>
+  <div id="widget-container"></div>
+
+  <script>
+    const wayforpay = new Wayforpay();
+
+    wayforpay.invoice({
+      merchantAccount: "lazarevoice_wayforpay_shop", // 
+      merchantDomainName: "lazarevoice.com",
+      authorizationType: "SimpleSignature",
+      merchantSignature: "hash_hmac", // 
+      orderReference: "ORDER_ID_" + new Date().getTime(),
+      orderDate: Math.floor(Date.now() / 1000),
+      amount: 389,
+      currency: "UAH",
+      productName: ["Курс «Блогер з голосом»"],
+      productPrice: [389],
+      productCount: [1],
+      clientEmail: "",
+      clientFirstName: "",
+      clientLastName: "",
+      returnUrl: "https://docs.google.com/forms/d/1fdz-9fb_wvLrCoBFh3dWzvTSRmOuv7pBkzza9MIBR-w/viewform"
+    });
+  </script>
+</body>
+</html>
