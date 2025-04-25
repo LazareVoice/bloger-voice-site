@@ -1,34 +1,92 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <title>Блогер з голосом – Оплата</title>
-  <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Блогер з голосом</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f6f8fc;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .price {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #888;
+      margin-right: 10px;
+    }
+    .new-price {
+      font-weight: bold;
+      color: #d32f2f;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
-<body style="text-align: center; font-family: sans-serif; padding: 40px;">
-  <h1>Курс «Блогер з голосом»</h1>
-  <h2 style="color: red;">389 грн <del style="color: gray;">4600 грн</del></h2>
-  <div id="widget-container"></div>
+<body>
+  <div class="container">
+    <h1>🎤 Курс: Блогер з голосом</h1>
+    <p class="price">
+      <span class="old-price">4600 грн</span>
+      <span class="new-price">389 грн</span>
+    </p>
 
+    <!-- WayForPay кнопка -->
+    <button id="payBtn" style="padding: 12px 24px; font-size: 1rem; background-color: #2196f3; color: white; border: none; border-radius: 8px; cursor: pointer;">
+      Купити курс
+    </button>
+
+    <!-- Google Форма — спочатку прихована -->
+    <iframe id="formFrame" src="https://docs.google.com/forms/d/e/1FAIpQLSfOczYiRlD1A28Lh0nATgyXdpZqRpry3xXHoH4rqNjSx6Fq6A/viewform?embedded=true" style="display:none;"></iframe>
+  </div>
+
+  <!-- WayForPay SDK -->
+  <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
   <script>
-    const wayforpay = new Wayforpay();
-
-    wayforpay.invoice({
-      merchantAccount: "lazarevoice_wayforpay_shop", // 
-      merchantDomainName: "lazarevoice.com",
-      authorizationType: "SimpleSignature",
-      merchantSignature: "hash_hmac", // 
-      orderReference: "ORDER_ID_" + new Date().getTime(),
-      orderDate: Math.floor(Date.now() / 1000),
-      amount: 389,
-      currency: "UAH",
-      productName: ["Курс «Блогер з голосом»"],
-      productPrice: [389],
-      productCount: [1],
-      clientEmail: "",
-      clientFirstName: "",
-      clientLastName: "",
-      returnUrl: "https://docs.google.com/forms/d/1fdz-9fb_wvLrCoBFh3dWzvTSRmOuv7pBkzza9MIBR-w/viewform"
+    document.getElementById('payBtn').addEventListener('click', function () {
+      const wayforpay = new Wayforpay();
+      wayforpay.invoice({
+        merchantAccount: "test_merch_n1", // Замінити на твій Merchant Login!
+        merchantDomainName: "lazarevoice.github.io",
+        authorizationType: "SimpleSignature",
+        merchantSignature: "TEST", // можна видалити для простого прикладу
+        orderReference: "order_" + new Date().getTime(),
+        orderDate: Math.floor(Date.now() / 1000),
+        amount: 389,
+        currency: "UAH",
+        productName: ["Курс: Блогер з голосом"],
+        productCount: [1],
+        productPrice: [389],
+        clientEmail: "",
+        language: "UA",
+        onApproved: function () {
+          document.getElementById('payBtn').style.display = 'none';
+          document.getElementById('formFrame').style.display = 'block';
+        },
+        onDeclined: function () {
+          alert("Оплата не пройшла. Спробуйте ще раз.");
+        },
+        onPending: function () {
+          alert("Очікуємо підтвердження оплати...");
+        }
+      });
     });
   </script>
 </body>
