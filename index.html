@@ -63,10 +63,10 @@
     document.getElementById('payBtn').addEventListener('click', function () {
       const wayforpay = new Wayforpay();
       wayforpay.invoice({
-        merchantAccount: "test_merch_n1", // Замінити на твій Merchant Login!
+        merchantAccount: "lazarevoice_wayforpay_shop", // 
         merchantDomainName: "lazarevoice.github.io",
         authorizationType: "SimpleSignature",
-        merchantSignature: "TEST", // можна видалити для простого прикладу
+        merchantSignature: "TEST", //
         orderReference: "order_" + new Date().getTime(),
         orderDate: Math.floor(Date.now() / 1000),
         amount: 389,
